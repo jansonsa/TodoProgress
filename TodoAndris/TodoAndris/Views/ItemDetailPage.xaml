@@ -8,5 +8,12 @@
         <Label Text="{Binding Item.Text}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" FontSize="Small"/>
+        <Label Text="Total number of days:" FontSize="Medium" />
+        <Label Text="{Binding Item.Days}" FontSize="Small"/>
+        <Label Text="Progress:" FontSize="Medium" />
+        <Label Text="{Binding Item.Progress}" FontSize="Small"/>
+        <Label Text="Last Completed:" FontSize="Medium" />
+        <Label Text="{Binding Item.LastCompleted}" FontSize="Small"/>
+        <Button Text="Delete" TextColor="White" BackgroundColor="Red" Clicked="DeleteButton_Clicked"/>
     </StackLayout>
 </ContentPage>

@@ -26,12 +26,25 @@ namespace TodoAndris.Views
 
             var item = new Item
             {
-                Text = "Item 1",
-                Description = "This is an item description."
+                Text = "Item",
+                Description = "This is an item description.",
+                Progress = 0,
+                Days = 1
             };
 
             viewModel = new ItemDetailViewModel(item);
             BindingContext = viewModel;
+        }
+
+        private async void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+
+            // This message will be caught by an observer
+            // We can't just delete the item here, because
+            // The previous page will try to find it and raise
+            // an array out of bounds exception
+            MessagingCenter.Send(this, "DeleteItem", viewModel.Item);
+            await Navigation.PopAsync();
         }
     }
 }

@@ -46,28 +46,40 @@ namespace TodoAndris.Services
 
 		public async Task<bool> AddItemAsync(Item item)
 		{
-			if (item == null || !CrossConnectivity.Current.IsConnected)
-				return false;
+            try
+            {
+                if (item == null || !CrossConnectivity.Current.IsConnected)
+                    return false;
 
-			var serializedItem = JsonConvert.SerializeObject(item);
+                var serializedItem = JsonConvert.SerializeObject(item);
 
-			var response = await client.PostAsync($"api/item", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync($"api/item", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
-			return response.IsSuccessStatusCode;
+                return response.IsSuccessStatusCode;
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.InnerException);
+                return false;
+            }
 		}
 
 		public async Task<bool> UpdateItemAsync(Item item)
 		{
-			if (item == null || item.Id == null || !CrossConnectivity.Current.IsConnected)
-				return false;
+            try
+            {
+                if (item == null || item.Id == null || !CrossConnectivity.Current.IsConnected)
+                    return false;
 
-			var serializedItem = JsonConvert.SerializeObject(item);
-			var buffer = Encoding.UTF8.GetBytes(serializedItem);
-			var byteContent = new ByteArrayContent(buffer);
+                var serializedItem = JsonConvert.SerializeObject(item);
 
-			var response = await client.PutAsync(new Uri($"api/item/{item.Id}"), byteContent);
+                var response = await client.PutAsync($"api/item", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
-			return response.IsSuccessStatusCode;
+                return response.IsSuccessStatusCode;
+            }catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
 		}
 
 		public async Task<bool> DeleteItemAsync(string id)

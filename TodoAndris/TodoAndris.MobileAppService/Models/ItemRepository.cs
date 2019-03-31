@@ -11,6 +11,7 @@ namespace TodoAndris.Models
 
 		public ItemRepository()
 		{
+            // Some placeholder data to not feel lonely
 			Add(new Item { Id = Guid.NewGuid().ToString(), Text = "Read a book", Description = "Read that new book about Xamarin programming.", Days=30, Progress=0 });
 			Add(new Item { Id = Guid.NewGuid().ToString(), Text = "Walk the dog", Description = "Give that little guy some fresh air.", Days=365, Progress=0 });
 			Add(new Item { Id = Guid.NewGuid().ToString(), Text = "Do something good", Description = "Say a compliment to a stranger or something.", Days=365, Progress=0 });

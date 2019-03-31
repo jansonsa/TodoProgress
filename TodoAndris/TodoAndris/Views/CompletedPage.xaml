@@ -1,18 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TodoAndris.Views.ItemsPage"
-              Title="{Binding Title}"
-             x:Name="BrowseItemsPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddItem_Clicked">
-            <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="UWP" Value="add.png"/>
-                </OnPlatform>
-            </ToolbarItem.Icon>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+             x:Class="TodoAndris.Views.AboutPage"
+             xmlns:vm="clr-namespace:TodoAndris.ViewModels"
+             Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="ItemsListView" 
@@ -38,11 +29,6 @@
                        FontSize="13" />
                                 <ProgressBar Progress="{Binding ProgressAmount}"
                                              />
-                                <Button IsEnabled="{Binding IsEnabled}"
-                                        Command="{Binding CompletedCommand}"
-                                        CommandParameter="{Binding}"
-                                        Text="I Did This Today"
-                                        />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

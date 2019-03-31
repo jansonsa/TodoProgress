@@ -2,16 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="TodoAndris.Views.NewItemPage"
-		     Title="New Item">
+		     Title="New Ritual">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
+        <ToolbarItem Text="Save" Clicked="Save_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="add.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
+            <Label Text="Title" FontSize="Medium" />
             <Entry Text="{Binding Item.Text}" FontSize="Small" />
             <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Item.Description}" FontSize="Small" Margin="0" />
+            <Entry Text="{Binding Item.Description}" FontSize="Small" Margin="0" />
+            <Label Text="Number of days" FontSize="Medium"/>
+            <Entry Text="{Binding Item.Days}" FontSize="Small" Keyboard="Numeric"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

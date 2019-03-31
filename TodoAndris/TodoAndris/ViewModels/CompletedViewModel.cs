@@ -2,44 +2,23 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
+using System.Windows.Input;
 using TodoAndris.Models;
 using TodoAndris.Views;
+using Xamarin.Forms;
 
 namespace TodoAndris.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class CompletedViewModel : BaseViewModel
     {
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public ItemsViewModel()
+        public CompletedViewModel()
         {
-            Title = "Rituals";
+            Title = "Completed";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-            {
-                try
-                {
-                    var _item = item as Item;
-                    // Crosscheck if the item is not somehow completed
-                    // and add it to the list with other items
-                    if (!_item.IsCompleted)
-                    {
-                        Items.Add(_item);
-                    }
-
-                    await DataStore.AddItemAsync(_item);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.InnerException);
-                }
-            });
 
             MessagingCenter.Subscribe<ItemDetailPage, Item>(this, "DeleteItem", async (obj, item) =>
             {
@@ -64,8 +43,6 @@ namespace TodoAndris.ViewModels
             });
         }
 
-
-
         async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy)
@@ -79,8 +56,8 @@ namespace TodoAndris.ViewModels
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
-                    // Only add the items that are still active
-                    if (!item.IsCompleted)
+                    // Only add the items that are completed
+                    if (item.IsCompleted)
                     {
                         Items.Add(item);
                     }

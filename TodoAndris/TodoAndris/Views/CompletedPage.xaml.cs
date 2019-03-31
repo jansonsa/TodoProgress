@@ -1,28 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using TodoAndris.Models;
+using TodoAndris.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
-using TodoAndris.Models;
-using TodoAndris.Views;
-using TodoAndris.ViewModels;
 
 namespace TodoAndris.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ItemsPage : ContentPage
+	public partial class AboutPage : ContentPage
 	{
-        ItemsViewModel viewModel;
 
-        public ItemsPage()
-        {
-            InitializeComponent();
+        CompletedViewModel viewModel;
 
-            BindingContext = viewModel = new ItemsViewModel();
+        public AboutPage ()
+		{
+			InitializeComponent ();
+
+            BindingContext = viewModel = new CompletedViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -30,17 +24,11 @@ namespace TodoAndris.Views
             var item = args.SelectedItem as Item;
             if (item == null)
                 return;
-            // Open item details page
+            // Navigate to item details page
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
-        }
-
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            // Open "Add a new item" page
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }
 
         protected override void OnAppearing()
