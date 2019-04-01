@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using TodoAndris.Models;
 using TodoAndris.Views;
 using Xamarin.Forms;
@@ -18,6 +17,7 @@ namespace TodoAndris.ViewModels
         {
             Title = "Completed";
             Items = new ObservableCollection<Item>();
+            // Commands on Swipe to refresh
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<ItemDetailPage, Item>(this, "DeleteItem", async (obj, item) =>
@@ -45,6 +45,8 @@ namespace TodoAndris.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
+            // Dont allow multiple instances of the same task
+            // to be run at the same time by setting the IsBusy
             if (IsBusy)
                 return;
 
@@ -52,6 +54,7 @@ namespace TodoAndris.ViewModels
 
             try
             {
+                // Reload all items
                 Items.Clear();
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)

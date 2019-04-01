@@ -19,6 +19,7 @@ namespace TodoAndris.ViewModels
         {
             Title = "Rituals";
             Items = new ObservableCollection<Item>();
+            // Command on Swipe to refresh
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
@@ -34,6 +35,10 @@ namespace TodoAndris.ViewModels
                     }
 
                     await DataStore.AddItemAsync(_item);
+                    // Have to reload the whole list when a new item gets added, because
+                    // The item does not have an ID, since it is assigned by the server
+                    // Meaning that we can't update or delete it
+                    await ExecuteLoadItemsCommand();
                 }
                 catch (Exception e)
                 {
@@ -68,6 +73,8 @@ namespace TodoAndris.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
+            // Dont allow multiple instances of the same task
+            // to be run at the same time by setting the IsBusy
             if (IsBusy)
                 return;
 
@@ -75,6 +82,7 @@ namespace TodoAndris.ViewModels
 
             try
             {
+                // Reload all the items
                 Items.Clear();
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
